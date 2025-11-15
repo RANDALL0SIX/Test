@@ -2,34 +2,133 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Bildanzeige</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
     <style>
-        html, body {
-            height: 100%;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
-            justify-content: center; /* horizontal zentrieren */
-            align-items: center;     /* vertikal zentrieren */
-            background-color: #f0f0f0; /* optional: Hintergrundfarbe */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
 
-        img {
-            max-width: 100%;
-            max-height: 100%;
+        .container {
+            text-align: center;
+            max-width: 1000px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease;
+        }
+
+        .images {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .image-box {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .image-box.visible {
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        .image-box.visible:hover {
+            transform: translateY(-10px);
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .image-box img {
+            width: 400px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .image-box img {
+                width: 100%;
+                max-width: 350px;
+            }
         }
     </style>
 </head>
 <body>
-    <img src="Bild.JPEG" alt="Bild">
+    <div class="container">
+        <h1>Welcome</h1>
+        <div class="images">
+            <div class="image-box">
+                <img src="Bild.JPEG" alt="Bild 1">
+            </div>
+            <div class="image-box">
+                <img src="https://via.placeholder.com/400x300/764ba2/ffffff?text=Bild+2" alt="Bild 2">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 200);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.image-box').forEach((box) => {
+            observer.observe(box);
+        });
+    </script>
 </body>
 </html>
-
-
-</body>
-
-</html>
-
-
